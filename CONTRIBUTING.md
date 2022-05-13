@@ -1,6 +1,7 @@
 Contributing to Odoo
 ====================
 
+
 Reporting Issues
 ----------------
 If possible, always attach a pull request when creating an issue (GitHub will automatically create an issue when submitting the changes). The issues not linked to a pull request or an internal request on odoo.com will be handled with a lower priority.
