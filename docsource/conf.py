@@ -189,3 +189,6 @@ latex_documents = [
 
 # If false, no module index is generated.
 # latex_use_modindex = True
+
+# Templates list : https://www.sphinx-doc.org/en/master/usage/theming.html#builtin-themes
+html_theme = "classic"
