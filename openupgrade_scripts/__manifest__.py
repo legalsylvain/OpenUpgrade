@@ -5,7 +5,7 @@
     "summary": """Module that contains all the migrations analysis
         and scripts for migrate Odoo SA modules.""",
     "author": "Odoo Community Association (OCA)",
-    "website": "https://github.com/OCA/OpenUpgrade",
+    "website": "https://github.com/OCA/openupgrade",
     "category": "Migration",
     "version": "16.0.1.0.0",
     "license": "AGPL-3",

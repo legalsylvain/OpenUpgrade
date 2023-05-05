@@ -7,7 +7,7 @@
     "author": "Odoo Community Association (OCA), Therp BV, Opener B.V., GRAP, "
     "Hunki Enterprises BV",
     "maintainers": ["legalsylvain", "StefanRijnhart", "hbrunn"],
-    "website": "https://github.com/OCA/OpenUpgrade",
+    "website": "https://github.com/OCA/openupgrade",
     "category": "Migration",
     "version": "16.0.1.0.0",
     "license": "AGPL-3",
