@@ -25,7 +25,12 @@ class PosPaymentMethod(models.Model):
     name = fields.Char(string="Payment Method", required=True, translate=True)
     receivable_account_id = fields.Many2one('account.account',
         string='Intermediary Account',
-        required=True,
+        # <GRAP>
+        # Set required to False. (as it is in V16.
+        # It avoid breaking error in post-migration V13 of point_of_sale
+        # when trying to populate receivable_account_id.
+        required=False,
+        # </GRAP>
         domain=[('reconcile', '=', True), ('user_type_id.type', '=', 'receivable')],
         default=lambda self: self.env.company.account_default_pos_receivable_account_id,
         ondelete='restrict',
