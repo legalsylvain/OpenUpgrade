@@ -513,15 +513,27 @@ def fill_account_journal_payment_credit_debit_account_id(env):
                 or journal.company_id.bank_account_code_prefix
                 or ""
             )
+        # GRAP Custom
+        openupgrade.logged_query(
+            env.cr,
+            """
+            SELECT fiscal_company_id from res_company
+            WHERE id = %s""", (journal.company_id.id,),
+        )
+        fiscal_company_id = env.cr.fetchone()[0]
+
+        fiscal_company = env["res.company"].search([('id', '=', fiscal_company_id)])
+
+        # END GRAP CUSTOM
         journal.payment_debit_account_id = env["account.account"].create(
             {
                 "name": _("Outstanding Receipts"),
                 "code": env["account.account"]._search_new_account_code(
-                    journal.company_id, digits, liquidity_account_prefix
+                    fiscal_company, digits, liquidity_account_prefix
                 ),
                 "reconcile": True,
                 "user_type_id": current_assets_type.id,
-                "company_id": journal.company_id.id,
+                "company_id": fiscal_company_id,
             }
         )
         journal.payment_credit_account_id = (
@@ -530,11 +542,11 @@ def fill_account_journal_payment_credit_debit_account_id(env):
                 {
                     "name": _("Outstanding Payments"),
                     "code": env["account.account"]._search_new_account_code(
-                        journal.company_id, digits, liquidity_account_prefix
+                        fiscal_company, digits, liquidity_account_prefix
                     ),
                     "reconcile": True,
                     "user_type_id": current_assets_type.id,
-                    "company_id": journal.company_id.id,
+                    "company_id": fiscal_company_id,
                 }
             )
             .id
@@ -683,9 +695,15 @@ def fill_account_payment_with_no_move(env):
         else:
             p_dates_by_company[p_company] = p_payment_date
     payments = env["account.payment"].browse(list(p_data.keys()))
+    i = 0
     for payment in payments.with_context(
         check_move_validity=False, tracking_disable=True
     ):
+        i+= 1
+        _logger.info(
+            f"{i} / {len(payments)} Create account.move"
+            "for account.payment {payment.id} ..."
+        )
         journal = env["account.journal"].browse(p_data[payment.id]["journal_id"])
         move = env["account.move"].create(
             {
