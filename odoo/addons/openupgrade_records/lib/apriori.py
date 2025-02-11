@@ -212,8 +212,7 @@ merged_models = {
 # GRAP Refactor
 renamed_modules.update(
     {
-        # https://github.com/OCA/sale-workflow/pull/3414
-        "sale_order_weight": "sale_order_ordered_weight",
+        # ...
     }
 )
 
